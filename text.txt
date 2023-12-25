@@ -1,2 +1,29 @@
-Testdatei
-vjvhj
+NPM Programme die installiert werden müssen:
+
+npm install -D esbuild
+npm install -D semistandard
+npm install -D snazzy
+npm install -D terser
+npm install -D less
+npm install -D less-plugin-clean-css
+npm install -D express
+
+
+NPM Befehle:
+html: Kopiert die HTML-Seite in den Releaseornder dist
+--> "html": "mkdir -p webapp/dist &&  cp webapp/src/index.html webapp/dist",
+
+css: Kopiert die less-Datei in den Releaseornder dist und wandelt es in eine CSS-Datei
+-->"css": "mkdir -p webapp/dist && lessc  webapp/src/styles/main.less webapp/dist/main.css ",
+
+js: Kopiert die Javascript-Datei in den Releaseornder dist mit esBuild
+"js": "mkdir -p webapp/dist && esbuild webapp/src/js/main.mjs --log-level=warning --bundle --outfile=webapp/dist/bundle.mjs",
+    
+clean: Löscht alle dynamisch erzeigten Datein (dist-Ordner und node_moudles)
+-->"clean": "npm run clean::dist && rm -rf node_modules",
+--> "clean::dist": "rm -rf webapp/dist",
+
+minify: Minfiziert die Javascript und CSS Datein
+ -->"minify": "npm run minify:js && npm run minify:css",
+ -->"minify:js": "terser --compress --mangle --output=webapp/dist/bundle.mjs webapp/dist/bundle.mjs",
+ -->"minify:css": "lessc --clean-css webapp/dist/main.css webapp/dist/main.css",

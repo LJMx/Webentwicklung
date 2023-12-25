@@ -10,11 +10,23 @@
     "html": "mkdir -p webapp/dist &&  cp webapp/src/index.html webapp/dist",
     "css": "mkdir -p webapp/dist && lessc  webapp/src/styles/main.less webapp/dist/main.css ",
     "js": "mkdir -p webapp/dist && esbuild webapp/src/js/main.mjs --log-level=warning --bundle --outfile=webapp/dist/bundle.mjs",
+    "clean": "npm run clean::dist && rm -rf node_modules",
+    "clean::dist": "rm -rf webapp/dist",
+    "debug": "npm run html && npm run css && npm run js",
+    "build": "npm run debug && npm run minify",
+    "minify": "npm run minify:js && npm run minify:css",
+    "minify:js": "terser --compress --mangle --output=webapp/dist/bundle.mjs webapp/dist/bundle.mjs",
+    "minify:css": "lessc --clean-css webapp/dist/main.css webapp/dist/main.css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "esbuild": "^0.19.10"
+    "esbuild": "^0.19.10",
+    "less": "^4.2.0",
+    "terser": "^5.26.0"
+  },
+  "devDependencies": {
+    "less-plugin-clean-css": "^1.5.1"
   }
 }
