@@ -12,11 +12,15 @@
     "js": "mkdir -p webapp/dist && esbuild webapp/src/js/main.mjs --log-level=warning --bundle --outfile=webapp/dist/bundle.mjs",
     "clean": "npm run clean::dist && rm -rf node_modules",
     "clean::dist": "rm -rf webapp/dist",
-    "debug": "npm run html && npm run css && npm run js",
-    "build": "npm run debug && npm run minify",
+    "debug": "npm run clean::dist && npm run lint && npm run html && npm run css && npm run js",
+    "build": "npm run clean::dist && npm run lint && npm run debug && npm run minify",
     "minify": "npm run minify:js && npm run minify:css",
     "minify:js": "terser --compress --mangle --output=webapp/dist/bundle.mjs webapp/dist/bundle.mjs",
     "minify:css": "lessc --clean-css webapp/dist/main.css webapp/dist/main.css",
+    "prebug": "npm run clean::dist && npm run lint",
+    "lint": "semistandard | snazzy",
+    "format": "semistandard --fix | snazzy",
+    "prestart": "npm run debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -27,6 +31,8 @@
     "terser": "^5.26.0"
   },
   "devDependencies": {
-    "less-plugin-clean-css": "^1.5.1"
+    "less-plugin-clean-css": "^1.5.1",
+    "semistandard": "^17.0.0",
+    "snazzy": "^9.0.0"
   }
 }
