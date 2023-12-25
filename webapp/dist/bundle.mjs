@@ -1,1 +1,4 @@
-console.log("test");
+(() => {
+  // webapp/src/js/main.mjs
+  console.log("test");
+})();
