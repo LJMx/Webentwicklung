@@ -7,6 +7,7 @@ npm install -D terser
 npm install -D less
 npm install -D less-plugin-clean-css
 npm install -D express
+npm install -D mongodb
 
 
 NPM Befehle:
