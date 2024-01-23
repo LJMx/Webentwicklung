@@ -1,26 +1,45 @@
-const mongoose = require('mongoose');
-const fs = require('fs');
-const csv = require('csv-parser');
+import { MongoClient } from 'mongodb';
+import fs from 'fs';
+import csvParser from 'csv-parser';
 
-// MongoDB-Verbindung
-mongoose.connect('mongodb://localhost:27017/Namen', { useNewUrlParser: true, useUnifiedTopology: true });
+(async function () {
+  let client = null;
 
-// MongoDB Aufbau
-const DatenbankSchema = new mongoose.Schema({
-  name: String,
-  geschlecht: String
-});
+  try {
+    client = new MongoClient('mongodb://localhost:27017');
+    await client.connect();
+  } catch (error) {
+    console.error(error);
+    process.exit(-1);
+  }
 
-const DatenbankModell = mongoose.model('Datenbank', DatenbankSchema);
+  try {
+    const db = client.db('datenbank');
+    const collection = db.collection('names');
 
-// Daten werden aus CSV eingefügt
-fs.createReadStream('data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv')
-  .pipe(csv())
-  .on('data', (row) => {
-    const datensatz = new DatenbankModell({
-      name: row.name,
-      geschlecht: row.geschlecht
+    // CSV Dateipfad
+    const csvFilePath = 'data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv';
+
+    // CSV lesen
+    const csvStream = fs.createReadStream(csvFilePath)
+      .pipe(csvParser());
+    const documents = [];
+    csvStream.on('data', (data) => {
+      // Aufbau der Datenbank
+      const document = {
+        names: data.names,
+        gender: data.gender
+      };
+      documents.push(document);
     });
 
-    datensatz.save();
-  });
+    csvStream.on('end', async () => {
+      await collection.insertMany(documents); // Muss noch angepasst werden
+      console.log('Daten wurden eingefügt');
+    });
+  } catch (error) {
+    console.error(error);
+  } finally {
+    client.close();
+  }
+})();
