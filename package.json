@@ -22,7 +22,7 @@
     "format": "semistandard --fix | snazzy",
     "prestart": "npm run debug",
     "start": "node server/src/server.js",
-    "initdb":"node server/src/index.js",
+    "initdb":"node server/src/index.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
