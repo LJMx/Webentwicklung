@@ -1,1 +1,36 @@
-// Platzhalter
+{
+    "html": "New-Item -ItemType Directory -Force -Path webapp/dist; Copy-Item webapp/src/index.html webapp/dist",
+    "css": "New-Item -ItemType Directory -Force -Path webapp/dist; lessc webapp/src/styles/main.less webapp/dist/main.css",
+    "js": "New-Item -ItemType Directory -Force -Path webapp/dist; esbuild webapp/src/js/main.mjs --log-level=warning --bundle --outfile=webapp/dist/bundle.mjs",
+    "debug": "npm run lint npm run html; npm run css; npm run js",
+    "build": "npm run lint npm run debug; npm run minify",
+    "minify": "npm run minify:js; npm run minify:css",
+    "minify:js": "terser --compress --mangle --output=webapp/dist/bundle.mjs webapp/dist/bundle.mjs",
+    "minify:css": "lessc --clean-css webapp/dist/main.css webapp/dist/main.css",
+    "prebug": "npm run lint",
+    "lint": "semistandard | snazzy",
+    "format": "semistandard --fix | snazzy",
+    "prestart": "npm run debug",
+    "start": "node server/src/server.js",
+    "initdb": "node server/src/index.mjs",
+    "test": "Write-Output \"Error: no test specified\"; exit 1"
+},
+
+
+"html": "mkdir -p webapp/dist && cp webapp/src/index.html webapp/dist",
+    "css": "mkdir -p webapp/dist && lessc  webapp/src/styles/main.less webapp/dist/main.css ",
+    "js": "mkdir -p webapp/dist && esbuild webapp/src/js/main.mjs --log-level=warning --bundle --outfile=webapp/dist/bundle.mjs",
+    "clean": "npm run clean::dist && rm -rf node_modules",
+    "clean::dist": "rm -rf webapp/dist",
+    "debug": "npm run clean::dist && npm run lint && npm run html && npm run css && npm run js",
+    "build": "npm run clean::dist && npm run lint && npm run debug && npm run minify",
+    "minify": "npm run minify:js && npm run minify:css",
+    "minify:js": "terser --compress --mangle --output=webapp/dist/bundle.mjs webapp/dist/bundle.mjs",
+    "minify:css": "lessc --clean-css webapp/dist/main.css webapp/dist/main.css",
+    "prebug": "npm run clean::dist && npm run lint",
+    "lint": "semistandard | snazzy",
+    "format": "semistandard --fix | snazzy",
+    "prestart": "npm run debug",
+    "start": "node server/src/server.js",
+    "initdb":"node server/src/index.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
