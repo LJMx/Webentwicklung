@@ -7,7 +7,8 @@ npm install -D terser
 npm install -D less
 npm install -D less-plugin-clean-css
 npm install -D express
-npm install mongodb csv-parser
+npm install sqlite3
+npm install sqlite
 
 
 NPM Befehle:
