@@ -1,45 +1,33 @@
-import { MongoClient } from 'mongodb';
 import fs from 'fs';
-import csvParser from 'csv-parser';
+import sqlite3 from 'sqlite3';
 
-(async function () {
-  let client = null;
+// Datenbankverbindung herstellen
+const db = new sqlite3.Database(":memory:");
 
-  try {
-    client = new MongoClient('mongodb://localhost:27017');
-    await client.connect();
-  } catch (error) {
-    console.error(error);
-    process.exit(-1);
-  }
+// Datenbank erstellen
+db.serialize(() => {
+    db.run("CREATE TABLE names (vornamen TEXT, geschlecht TEXT)");
 
-  try {
-    const db = client.db('datenbank');
-    const collection = db.collection('names');
+    // CSV-Datei einlesen und Daten in die Datenbank einfügen
+    const csvData = fs.readFileSync('data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv', 'utf-8');
+    const rows = csvData.trim().split('\n');
 
-    // CSV Dateipfad
-    const csvFilePath = 'data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv';
-
-    // CSV lesen
-    const csvStream = fs.createReadStream(csvFilePath)
-      .pipe(csvParser());
-    const documents = [];
-    csvStream.on('data', (data) => {
-      // Aufbau der Datenbank
-      const document = {
-        names: data.names,
-        gender: data.gender
-      };
-      documents.push(document);
+    const insertStatement = db.prepare("INSERT INTO names (vornamen, geschlecht) VALUES (?, ?)");
+    rows.forEach(row => {
+        const [vorname, geschlecht] = row.split(';');
+        insertStatement.run(vorname, geschlecht.trim());
     });
+    insertStatement.finalize();
 
-    csvStream.on('end', async () => {
-      await collection.insertMany(documents); // Muss noch angepasst werden
-      console.log('Daten wurden eingefügt');
+    // Datenbankabfrage zum testen. Kann gelöscht werden.
+    db.each("SELECT * FROM names", (error, row) => {
+        if (error) {
+            console.error(error);
+            return;
+        }
+        console.log(`${row.vornamen} - ${row.geschlecht}`);
     });
-  } catch (error) {
-    console.error(error);
-  } finally {
-    client.close();
-  }
-})();
+});
+
+// Datenbankverbindung schließen
+db.close();
