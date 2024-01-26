@@ -28,6 +28,3 @@ db.serialize(() => {
     console.log(`${row.vornamen} - ${row.geschlecht}`);
   });
 });
-
-// Datenbankverbindung schließen
-db.close();
