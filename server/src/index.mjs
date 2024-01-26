@@ -1,14 +1,13 @@
 import fs from 'fs';
 import sqlite3 from 'sqlite3';
 
-// Datenbankverbindung herstellen
 const db = new sqlite3.Database(':memory:');
 
 // Datenbank erstellen
 db.serialize(() => {
   db.run('CREATE TABLE names (vornamen TEXT, geschlecht TEXT)');
 
-  // CSV-Datei einlesen und Daten in die Datenbank einfügen
+  // CSV lesen und einfügen
   const csvData = fs.readFileSync('data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv', 'utf-8');
   const rows = csvData.trim().split('\n');
 
@@ -19,7 +18,7 @@ db.serialize(() => {
   });
   insertStatement.finalize();
 
-  // Datenbankabfrage zum testen. Kann gelöscht werden.
+  // Kann gelöscht werden wenn alles klappt
   db.each('SELECT * FROM names', (error, row) => {
     if (error) {
       console.error(error);
