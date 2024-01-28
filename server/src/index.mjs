@@ -1,15 +1,15 @@
 import fs from 'fs';
 import sqlite3 from 'sqlite3';
 
-const db = new sqlite3.Database(':memory:');
-
 // Datenbank erstellen
-db.serialize(() => {
-  db.run('CREATE TABLE names (vornamen TEXT, geschlecht TEXT)');
+const db = new sqlite3.Database('database.db');
 
-  // CSV lesen und einfügen
-  const csvData = fs.readFileSync('data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv', 'utf-8');
-  const rows = csvData.trim().split('\n');
+// CSV lesen und einfügen
+const csvData = fs.readFileSync('data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv', 'utf-8');
+const rows = csvData.trim().split('\n');
+
+db.serialize(() => {
+  db.run('CREATE TABLE IF NOT EXISTS names (vornamen TEXT, geschlecht TEXT)');
 
   const insertStatement = db.prepare('INSERT INTO names (vornamen, geschlecht) VALUES (?, ?)');
   rows.forEach(row => {
@@ -18,7 +18,7 @@ db.serialize(() => {
   });
   insertStatement.finalize();
 
-  // Kann gelöscht werden wenn alles klappt
+  // Daten ausgeben kann gelöscht werden
   db.each('SELECT * FROM names', (error, row) => {
     if (error) {
       console.error(error);
