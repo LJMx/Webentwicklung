@@ -3,8 +3,12 @@ const express = require('express');
 const indexRouter = require('./index.js');
 
 // Port
-const port = 8080;
+let port = 8080;
 
+// Falls ein Port per Kommandozeile übergeben wurde, soll dieser genommen werden.
+if (process.argv.length >= 3 && !isNaN(process.argv[2])) {
+  port = process.argv[2];
+}
 // dist Verzeichnis auswählen
 const server = express();
 server.use(express.static(path.join(__dirname, '..', '..', 'webapp', 'dist')));
