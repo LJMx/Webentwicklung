@@ -1,7 +1,7 @@
 const fs = require('fs');
 const sqlite3 = require('sqlite3');
 const express = require('express');
-const server = new express.Router();
+const route = new express.Router();
 
 // Datenbank erstellen
 const db = new sqlite3.Database(':memory:');
@@ -21,7 +21,7 @@ db.serialize(() => {
   insertStatement.finalize();
 
   // Route um Daten aus der Datenbank abzurufen
-  server.get('/getDataFromDatabase', (req, res) => {
+  route.get('/getDataFromDatabase', (req, res) => {
     db.all('SELECT * FROM names', (error, rows) => {
       if (error) {
         console.error(error);
@@ -32,7 +32,7 @@ db.serialize(() => {
     });
   });
 
-  module.exports = server;
+  module.exports = route;
 
   // Daten ausgeben kann gelöscht werden
   db.each('SELECT * FROM names', (error, row) => {
