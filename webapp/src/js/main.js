@@ -9,6 +9,16 @@ function displayData (data) {
   data.forEach(item => {
     const listItem = document.createElement('li');
     listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
+
+    const button = document.createElement('button');
+    button.textContent = '+';
+    button.addEventListener('click', () => {
+      // Akion für den Button
+
+    });
+
+    listItem.appendChild(button);
+
     nameList.appendChild(listItem);
   });
 }

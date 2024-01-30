@@ -23,6 +23,7 @@
     "prestart": "npm run debug",
     "start": "node server/src/server.js",
     "initdb": "node server/src/index.js",
+    "nstart": "nodemon server/src/server.js 12345",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -30,6 +31,7 @@
   "dependencies": {
     "esbuild": "^0.19.10",
     "less": "^4.2.0",
+    "nodemon": "^3.0.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "terser": "^5.26.0"
