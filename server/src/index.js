@@ -1,8 +1,10 @@
-import fs from 'fs';
-import sqlite3 from 'sqlite3';
+const fs = require('fs');
+const sqlite3 = require('sqlite3');
+const express = require('express');
+const server = new express.Router();
 
 // Datenbank erstellen
-const db = new sqlite3.Database('database.db');
+const db = new sqlite3.Database(':memory:');
 
 // CSV lesen und einfügen
 const csvData = fs.readFileSync('data/Gesamt_Vornamen_Koeln_2010_2022_cleaned.csv', 'utf-8');
@@ -17,6 +19,20 @@ db.serialize(() => {
     insertStatement.run(vorname, geschlecht.trim());
   });
   insertStatement.finalize();
+
+  // Route um Daten aus der Datenbank abzurufen
+  server.get('/getDataFromDatabase', (req, res) => {
+    db.all('SELECT * FROM names', (error, rows) => {
+      if (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+      res.json(rows);
+    });
+  });
+
+  module.exports = server;
 
   // Daten ausgeben kann gelöscht werden
   db.each('SELECT * FROM names', (error, row) => {
