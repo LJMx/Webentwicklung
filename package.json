@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "html": "mkdir -p webapp/dist && cp webapp/src/index.html webapp/dist",
+    "html": "mkdir -p webapp/dist && cp webapp/src/index.html webapp/dist && cp webapp/src/merkzettel.html webapp/dist",
     "css": "mkdir -p webapp/dist && lessc  webapp/src/styles/main.less webapp/dist/main.css ",
     "js": "mkdir -p webapp/dist && esbuild webapp/src/js/main.js --log-level=warning --bundle --outfile=webapp/dist/bundle.mjs",
     "clean": "npm run clean::dist && rm -rf node_modules",
