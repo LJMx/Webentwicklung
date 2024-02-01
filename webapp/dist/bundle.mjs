@@ -1,10 +1,14 @@
 (() => {
   // webapp/src/js/main.js
   document.addEventListener("DOMContentLoaded", function() {
-    fetch("/getDataFromDatabase").then((response) => response.json()).then((data) => displayData(data));
+    fetch("/getDataFromDatabase").then((response) => response.json()).then((data) => {
+      displayData(data);
+      setupPagination(data);
+    });
   });
   function displayData(data) {
     const nameList = document.getElementById("nameList");
+    nameList.innerHTML = "";
     data.forEach((item) => {
       const listItem = document.createElement("li");
       listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
@@ -33,6 +37,7 @@
   });
   function displayMerkliste(data) {
     const nameList = document.getElementById("merkliste");
+    nameList.innerHTML = "";
     data.forEach((item) => {
       const listItem = document.createElement("li");
       listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
@@ -64,5 +69,29 @@
       nameList.innerHTML = "";
       displayMerkliste(data);
     });
+  }
+  function setupPagination(data) {
+    const itemsPerPage = 10;
+    const totalPages = Math.ceil(data.length / itemsPerPage);
+    let currentPage = 1;
+    document.getElementById("prev-page").addEventListener("click", function() {
+      if (currentPage > 1) {
+        currentPage--;
+        displayDataPaginated(data, currentPage, itemsPerPage);
+      }
+    });
+    document.getElementById("next-page").addEventListener("click", function() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        displayDataPaginated(data, currentPage, itemsPerPage);
+      }
+    });
+    displayDataPaginated(data, currentPage, itemsPerPage);
+  }
+  function displayDataPaginated(data, page, itemsPerPage) {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+    const paginatedData = data.slice(startIndex, endIndex);
+    displayData(paginatedData);
   }
 })();

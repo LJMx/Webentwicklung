@@ -1,11 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
   fetch('/getDataFromDatabase')
     .then(response => response.json())
-    .then(data => displayData(data));
+    .then(data => {
+      displayData(data);
+      setupPagination(data);
+    });
 });
 
 function displayData (data) {
   const nameList = document.getElementById('nameList');
+  nameList.innerHTML = ''; // Alte Einträge löschen
   data.forEach(item => {
     const listItem = document.createElement('li');
     listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
@@ -33,7 +37,6 @@ function addNameToMerkliste (vorname, geschlecht) {
     .then(response => response.json())
     .then(data => {
       console.log('Name wurde zur Merkliste hinzugefügt:', data);
-      // Hier können Sie weitere Aktionen ausführen, wenn gewünscht
     })
     .catch(error => console.error('Fehler beim Hinzufügen zum Merkliste:', error));
 }
@@ -46,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function displayMerkliste (data) {
   const nameList = document.getElementById('merkliste');
+  nameList.innerHTML = ''; // Alte Einträge löschen
   data.forEach(item => {
     const listItem = document.createElement('li');
     listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
@@ -74,8 +78,7 @@ function deleteFromMerkliste (vorname, geschlecht) {
     .then(response => response.json())
     .then(data => {
       console.log('Name wurde aus Merkliste gelöscht:', data);
-      // Hier können Sie weitere Aktionen ausführen, wenn gewünscht
-      displayUpdatedMerkliste(); // Funktion aufrufen, um die aktualisierte Merkliste anzuzeigen
+      displayUpdatedMerkliste();
     })
     .catch(error => console.error('Fehler beim Löschen aus der Merkliste:', error));
 }
@@ -88,4 +91,33 @@ function displayUpdatedMerkliste () {
       nameList.innerHTML = ''; // Alte Einträge löschen
       displayMerkliste(data); // Neue Einträge anzeigen
     });
+}
+// Paginierung
+function setupPagination (data) {
+  const itemsPerPage = 10; // Anzahl der Elemente pro Seite
+  const totalPages = Math.ceil(data.length / itemsPerPage); // Berechnen der Gesamtseitenanzahl
+  let currentPage = 1; // Aktuelle Seite
+
+  document.getElementById('prev-page').addEventListener('click', function () {
+    if (currentPage > 1) {
+      currentPage--;
+      displayDataPaginated(data, currentPage, itemsPerPage);
+    }
+  });
+
+  document.getElementById('next-page').addEventListener('click', function () {
+    if (currentPage < totalPages) {
+      currentPage++;
+      displayDataPaginated(data, currentPage, itemsPerPage);
+    }
+  });
+
+  displayDataPaginated(data, currentPage, itemsPerPage);
+}
+
+function displayDataPaginated (data, page, itemsPerPage) {
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+  const paginatedData = data.slice(startIndex, endIndex);
+  displayData(paginatedData);
 }

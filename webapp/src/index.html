@@ -11,22 +11,27 @@
     <h1>Web-Entwicklung WS 23/24</h1>
     
     <div class="menu">
-    <ul>
-        <li><a href = "index.html" title = "Alle Namen">Namensliste</a></li>
-        <li><a href = "merkzettel.html" title = "Meine Merkliste" >Merkliste</a></li>
-    </ul>
-
+        <ul>
+            <li><a href="index.html" title="Alle Namen">Namensliste</a></li>
+            <li><a href="merkzettel.html" title="Meine Merkliste">Merkliste</a></li>
+        </ul>
     </div>
-    <div class="content" >
-    <h2> Alle Namen</h2>
-    <ul style="padding-bottom: 0;">
-        <li> Vorname - Gechlecht - Merkliste</li>
-    </ul>
-    <ul id="nameList">
-        
-    </ul>  
+
+    <div class="content">
+        <h2> Alle Namen</h2>
+        <ul style="padding-bottom: 0;">
+            <li> Vorname - Geschlecht - Merkliste</li>
+        </ul>
+        <ul id="nameList">  
+        </ul>
+
+        <div id="pagination">
+            <button id="prev-page">Vorherige Seite</button>
+            <button id="next-page">Nächste Seite</button>
+        </div>
+    </div>
 
     <script src="bundle.mjs" type="module"></script>
-     </div>
+    <script src="main.js"></script>
 </body>
 </html>
