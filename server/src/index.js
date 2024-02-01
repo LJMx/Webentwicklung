@@ -50,7 +50,6 @@ dbMerkliste.serialize(() => {
   dbMerkliste.run('CREATE TABLE IF NOT EXISTS merkliste (vornamen TEXT, geschlecht TEXT)');
 
   const insertStatement = dbMerkliste.prepare('INSERT INTO merkliste (vornamen, geschlecht) VALUES (?, ?)');
-  insertStatement.run('vorname', 'geschlecht');
 
   insertStatement.finalize();
 

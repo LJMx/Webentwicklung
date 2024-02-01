@@ -24,3 +24,24 @@ h2 {
   color: #fff;
   text-decoration: none;
 }
+.content {
+  padding: 20px;
+}
+.content h1 {
+  color: #333;
+}
+.content ul {
+  list-style: none;
+  padding: 10px;
+  /* Padding für den Rahmen */
+}
+.content ul li {
+  border: 1px solid #ccc;
+  /* Rahmen um jeden Eintrag */
+  border-radius: 5px;
+  /* Abgerundete Ecken für den Rahmen */
+  padding: 10px;
+  /* Innenabstand für den Inhalt */
+  margin-bottom: 10px;
+  width: 50%;
+}
