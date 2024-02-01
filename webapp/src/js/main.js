@@ -75,6 +75,17 @@ function deleteFromMerkliste (vorname, geschlecht) {
     .then(data => {
       console.log('Name wurde aus Merkliste gelöscht:', data);
       // Hier können Sie weitere Aktionen ausführen, wenn gewünscht
+      displayUpdatedMerkliste(); // Funktion aufrufen, um die aktualisierte Merkliste anzuzeigen
     })
-    .catch(error => console.error('Fehler beim Hinzufügen zum Merkliste:', error));
+    .catch(error => console.error('Fehler beim Löschen aus der Merkliste:', error));
+}
+
+function displayUpdatedMerkliste () {
+  fetch('/getMerklisteFromDatabase')
+    .then(response => response.json())
+    .then(data => {
+      const nameList = document.getElementById('merkliste');
+      nameList.innerHTML = ''; // Alte Einträge löschen
+      displayMerkliste(data); // Neue Einträge anzeigen
+    });
 }

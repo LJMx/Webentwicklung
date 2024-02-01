@@ -55,6 +55,14 @@
       body: JSON.stringify({ vorname, geschlecht })
     }).then((response) => response.json()).then((data) => {
       console.log("Name wurde aus Merkliste gel\xF6scht:", data);
-    }).catch((error) => console.error("Fehler beim Hinzuf\xFCgen zum Merkliste:", error));
+      displayUpdatedMerkliste();
+    }).catch((error) => console.error("Fehler beim L\xF6schen aus der Merkliste:", error));
+  }
+  function displayUpdatedMerkliste() {
+    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
+      const nameList = document.getElementById("merkliste");
+      nameList.innerHTML = "";
+      displayMerkliste(data);
+    });
   }
 })();
