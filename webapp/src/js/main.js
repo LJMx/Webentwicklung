@@ -94,25 +94,32 @@ function displayUpdatedMerkliste () {
 }
 // Paginierung
 function setupPagination (data) {
-  const itemsPerPage = 10; // Anzahl der Elemente pro Seite
-  const totalPages = Math.ceil(data.length / itemsPerPage); // Berechnen der Gesamtseitenanzahl
-  let currentPage = 1; // Aktuelle Seite
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  let index = 1;
 
+  const pageLabel = document.getElementById('pagelabel');
+  pageLabel.textContent = `Seite ${index}`;
+
+  // Vorherige Seite
   document.getElementById('prev-page').addEventListener('click', function () {
-    if (currentPage > 1) {
-      currentPage--;
-      displayDataPaginated(data, currentPage, itemsPerPage);
+    if (index > 1) {
+      index--;
+      displayDataPaginated(data, index, itemsPerPage);
+      pageLabel.textContent = `Seite ${index}`;
     }
   });
 
+  // Nächste Seite
   document.getElementById('next-page').addEventListener('click', function () {
-    if (currentPage < totalPages) {
-      currentPage++;
-      displayDataPaginated(data, currentPage, itemsPerPage);
+    if (index < totalPages) {
+      index++;
+      displayDataPaginated(data, index, itemsPerPage);
+      pageLabel.textContent = `Seite ${index}`;
     }
   });
 
-  displayDataPaginated(data, currentPage, itemsPerPage);
+  displayDataPaginated(data, index, itemsPerPage);
 }
 
 function displayDataPaginated (data, page, itemsPerPage) {

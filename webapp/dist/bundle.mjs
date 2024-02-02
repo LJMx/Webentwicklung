@@ -73,20 +73,24 @@
   function setupPagination(data) {
     const itemsPerPage = 10;
     const totalPages = Math.ceil(data.length / itemsPerPage);
-    let currentPage = 1;
+    let index = 1;
+    const pageLabel = document.getElementById("pagelabel");
+    pageLabel.textContent = `Seite ${index}`;
     document.getElementById("prev-page").addEventListener("click", function() {
-      if (currentPage > 1) {
-        currentPage--;
-        displayDataPaginated(data, currentPage, itemsPerPage);
+      if (index > 1) {
+        index--;
+        displayDataPaginated(data, index, itemsPerPage);
+        pageLabel.textContent = `Seite ${index}`;
       }
     });
     document.getElementById("next-page").addEventListener("click", function() {
-      if (currentPage < totalPages) {
-        currentPage++;
-        displayDataPaginated(data, currentPage, itemsPerPage);
+      if (index < totalPages) {
+        index++;
+        displayDataPaginated(data, index, itemsPerPage);
+        pageLabel.textContent = `Seite ${index}`;
       }
     });
-    displayDataPaginated(data, currentPage, itemsPerPage);
+    displayDataPaginated(data, index, itemsPerPage);
   }
   function displayDataPaginated(data, page, itemsPerPage) {
     const startIndex = (page - 1) * itemsPerPage;
