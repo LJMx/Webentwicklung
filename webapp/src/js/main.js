@@ -101,6 +101,9 @@ function setupPagination (data) {
   const pageLabel = document.getElementById('pagelabel');
   pageLabel.textContent = `Seite ${index}`;
 
+  const totalPageCount = document.getElementById('totalPageCount');
+  totalPageCount.textContent = ` Insgesamt ${totalPages} Seiten`;
+
   // Vorherige Seite
   document.getElementById('prev-page').addEventListener('click', function () {
     if (index > 1) {

@@ -76,6 +76,8 @@
     let index = 1;
     const pageLabel = document.getElementById("pagelabel");
     pageLabel.textContent = `Seite ${index}`;
+    const totalPageCount = document.getElementById("totalPageCount");
+    totalPageCount.textContent = ` Insgesamt ${totalPages} Seiten`;
     document.getElementById("prev-page").addEventListener("click", function() {
       if (index > 1) {
         index--;
