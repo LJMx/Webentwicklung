@@ -20,14 +20,39 @@
     </ul>
 
     </div>
-    <div class="content" >
+    <div class="content">
         <h2> Mein Merkzettel</h2>
+    </div>
+    <div>
+        <form id="filterFormMerkliste">
+          <label>
+            Geschlecht: 
+          </label>
+          <label>
+            <input type="radio" name="gender" value="all" checked> Alle
+          </label>
+          <label>
+            <input type="radio" name="gender" value="m"> Männlich
+          </label>
+          <label>
+            <input type="radio" name="gender" value="w"> Weiblich
+          </label>
+          
+        </form>
+      </div>
+
+    </div>
+
+    <div class="content" >
+        
         <ul style="padding-bottom: 0;">
             <li> Vorname - Gechlecht - Merkliste</li>
         </ul>
         <ul id="merkliste">
             
         </ul>  
+
+        
     
         <script src="bundle.mjs" type="module"></script>
     </div>

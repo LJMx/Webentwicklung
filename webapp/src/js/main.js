@@ -1,15 +1,18 @@
+
+// --- Alle Namen ---------------------------------------------
 document.addEventListener('DOMContentLoaded', function () {
   fetch('/getDataFromDatabase')
     .then(response => response.json())
     .then(data => {
-      displayData(data);
       setupPagination(data);
+      displayFilter();
     });
 });
 
 function displayData (data) {
   const nameList = document.getElementById('nameList');
   nameList.innerHTML = ''; // Alte Einträge löschen
+
   data.forEach(item => {
     const listItem = document.createElement('li');
     listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
@@ -41,13 +44,19 @@ function addNameToMerkliste (vorname, geschlecht) {
     .catch(error => console.error('Fehler beim Hinzufügen zum Merkliste:', error));
 }
 
+// ---- Merkliste --------------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', function () {
   fetch('/getMerklisteFromDatabase')
     .then(response => response.json())
-    .then(data => displayMerkliste(data));
+    .then(data => {
+      displayMerkliste(data);
+      displayFilterMerkliste();
+    });
 });
 
 function displayMerkliste (data) {
+  console.log('- displayMerkliste');
   const nameList = document.getElementById('merkliste');
   nameList.innerHTML = ''; // Alte Einträge löschen
   data.forEach(item => {
@@ -92,7 +101,25 @@ function displayUpdatedMerkliste () {
       displayMerkliste(data); // Neue Einträge anzeigen
     });
 }
-// Paginierung
+
+function displayFilterMerkliste () {
+  console.log('1 - displayFilterMerkliste');
+  const filterForm = document.getElementById('filterFormMerkliste');
+  filterForm.addEventListener('change', filterNamesMerkliste);
+}
+
+function filterNamesMerkliste () {
+  const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+
+  fetch('/getMerklisteFromDatabase')
+    .then(response => response.json())
+    .then(data => {
+      const filteredData = selectedGender === 'all' ? data : data.filter(item => item.geschlecht === selectedGender);
+      displayMerkliste(filteredData);
+    });
+}
+
+// ---- Paginierung -------------------------------------------------
 function setupPagination (data) {
   const itemsPerPage = 10;
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -130,4 +157,22 @@ function displayDataPaginated (data, page, itemsPerPage) {
   const endIndex = Math.min(startIndex + itemsPerPage, data.length);
   const paginatedData = data.slice(startIndex, endIndex);
   displayData(paginatedData);
+}
+
+// ---- Filter Funktion ----------------------------------
+
+function displayFilter () {
+  const filterForm = document.getElementById('filterForm');
+  filterForm.addEventListener('change', filterNames);
+}
+
+function filterNames () {
+  const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+
+  fetch('/getDataFromDatabase')
+    .then(response => response.json())
+    .then(data => {
+      const filteredData = selectedGender === 'all' ? data : data.filter(item => item.geschlecht === selectedGender);
+      setupPagination(filteredData);
+    });
 }

@@ -2,8 +2,8 @@
   // webapp/src/js/main.js
   document.addEventListener("DOMContentLoaded", function() {
     fetch("/getDataFromDatabase").then((response) => response.json()).then((data) => {
-      displayData(data);
       setupPagination(data);
+      displayFilter();
     });
   });
   function displayData(data) {
@@ -33,9 +33,13 @@
     }).catch((error) => console.error("Fehler beim Hinzuf\xFCgen zum Merkliste:", error));
   }
   document.addEventListener("DOMContentLoaded", function() {
-    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => displayMerkliste(data));
+    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
+      displayMerkliste(data);
+      displayFilterMerkliste();
+    });
   });
   function displayMerkliste(data) {
+    console.log("- displayMerkliste");
     const nameList = document.getElementById("merkliste");
     nameList.innerHTML = "";
     data.forEach((item) => {
@@ -70,6 +74,18 @@
       displayMerkliste(data);
     });
   }
+  function displayFilterMerkliste() {
+    console.log("1 - displayFilterMerkliste");
+    const filterForm = document.getElementById("filterFormMerkliste");
+    filterForm.addEventListener("change", filterNamesMerkliste);
+  }
+  function filterNamesMerkliste() {
+    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
+      const filteredData = selectedGender === "all" ? data : data.filter((item) => item.geschlecht === selectedGender);
+      displayMerkliste(filteredData);
+    });
+  }
   function setupPagination(data) {
     const itemsPerPage = 10;
     const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -99,5 +115,16 @@
     const endIndex = Math.min(startIndex + itemsPerPage, data.length);
     const paginatedData = data.slice(startIndex, endIndex);
     displayData(paginatedData);
+  }
+  function displayFilter() {
+    const filterForm = document.getElementById("filterForm");
+    filterForm.addEventListener("change", filterNames);
+  }
+  function filterNames() {
+    const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+    fetch("/getDataFromDatabase").then((response) => response.json()).then((data) => {
+      const filteredData = selectedGender === "all" ? data : data.filter((item) => item.geschlecht === selectedGender);
+      setupPagination(filteredData);
+    });
   }
 })();
