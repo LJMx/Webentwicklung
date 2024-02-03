@@ -45,12 +45,22 @@
     data.forEach((item) => {
       const listItem = document.createElement("li");
       listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
-      const button = document.createElement("button");
-      button.textContent = "- l\xF6schen";
-      button.addEventListener("click", () => {
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "- l\xF6schen";
+      deleteButton.addEventListener("click", () => {
         deleteFromMerkliste(item.vornamen, item.geschlecht);
       });
-      listItem.appendChild(button);
+      const priorisierenButton = document.createElement("button");
+      priorisierenButton.textContent = "*";
+      priorisierenButton.addEventListener("click", () => {
+        if (priorisierenButton.style.backgroundColor === "gold") {
+          priorisierenButton.style.backgroundColor = "";
+        } else {
+          priorisierenButton.style.backgroundColor = "gold";
+        }
+      });
+      listItem.appendChild(deleteButton);
+      listItem.appendChild(priorisierenButton);
       nameList.appendChild(listItem);
     });
   }
