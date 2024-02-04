@@ -357,6 +357,7 @@
     fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
       displayMerkliste(data);
       displayFilterMerkliste();
+      makeMerklisteSortable();
     });
   });
   function displayMerkliste(data) {
@@ -366,6 +367,7 @@
     data.forEach((item) => {
       const listItem = document.createElement("li");
       listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
+      listItem.draggable = true;
       const deleteButton = document.createElement("button");
       deleteButton.textContent = "- l\xF6schen";
       deleteButton.addEventListener("click", () => {
@@ -403,6 +405,7 @@
       const nameList = document.getElementById("merkliste");
       nameList.innerHTML = "";
       displayMerkliste(data);
+      makeMerklisteSortable();
     });
   }
   function displayFilterMerkliste() {
@@ -415,6 +418,26 @@
     fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
       const filteredData = selectedGender === "all" ? data : data.filter((item) => item.geschlecht === selectedGender);
       displayMerkliste(filteredData);
+      makeMerklisteSortable();
+    });
+  }
+  function makeMerklisteSortable() {
+    const nameList = document.getElementById("merkliste");
+    let draggedItem = null;
+    nameList.addEventListener("dragstart", function(event) {
+      draggedItem = event.target;
+      event.dataTransfer.setData("text/plain", null);
+    });
+    nameList.addEventListener("dragover", function(event) {
+      event.preventDefault();
+    });
+    nameList.addEventListener("drop", function(event) {
+      event.preventDefault();
+      if (event.target.tagName === "LI") {
+        nameList.insertBefore(draggedItem, event.target);
+      } else {
+        nameList.appendChild(draggedItem);
+      }
     });
   }
   function setupPagination(data) {

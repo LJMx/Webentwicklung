@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(data => {
       displayMerkliste(data);
       displayFilterMerkliste();
+      makeMerklisteSortable(); // Aufruf der Funktion, um die Merkliste sortierbar zu machen
     });
 });
 
@@ -62,6 +63,7 @@ function displayMerkliste (data) {
   data.forEach(item => {
     const listItem = document.createElement('li');
     listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
+    listItem.draggable = true; // Aktiviere Drag-and-Drop für das Listenelement
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '- löschen';
@@ -110,6 +112,7 @@ function displayUpdatedMerkliste () {
       const nameList = document.getElementById('merkliste');
       nameList.innerHTML = ''; // Alte Einträge löschen
       displayMerkliste(data); // Neue Einträge anzeigen
+      makeMerklisteSortable(); // Wiederholtes Aufrufen, um die Sortierbarkeit beizubehalten
     });
 }
 
@@ -127,7 +130,31 @@ function filterNamesMerkliste () {
     .then(data => {
       const filteredData = selectedGender === 'all' ? data : data.filter(item => item.geschlecht === selectedGender);
       displayMerkliste(filteredData);
+      makeMerklisteSortable(); // Wiederholtes Aufrufen, um die Sortierbarkeit beizubehalten
     });
+}
+
+function makeMerklisteSortable () {
+  const nameList = document.getElementById('merkliste');
+  let draggedItem = null;
+
+  nameList.addEventListener('dragstart', function (event) {
+    draggedItem = event.target;
+    event.dataTransfer.setData('text/plain', null);
+  });
+
+  nameList.addEventListener('dragover', function (event) {
+    event.preventDefault();
+  });
+
+  nameList.addEventListener('drop', function (event) {
+    event.preventDefault();
+    if (event.target.tagName === 'LI') {
+      nameList.insertBefore(draggedItem, event.target);
+    } else {
+      nameList.appendChild(draggedItem);
+    }
+  });
 }
 
 // ---- Paginierung -------------------------------------------------
