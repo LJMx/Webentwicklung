@@ -1,12 +1,10 @@
 body {
-    background-color: #757575;
-    font-family: Arial, sans-serif;
-    
+    background-color: #f4f4f4;
+    font-family: 'Arial', sans-serif;
 }
 
-h2 {
-    color: #ffffff;
-    font-family: Arial, sans-serif;
+h1 {
+    color: #333;
 }
 
 .menu {
@@ -29,26 +27,140 @@ h2 {
 .menu ul li a {
     color: #fff;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .content {
     padding: 20px;
 }
 
-.content h1 {
+.content h2 {
     color: #333;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
 }
 
 .content ul {
     list-style: none;
-    padding: 10px; /* Padding für den Rahmen */
-   
-    }
+    padding: 10px;
+}
 
 .content ul li {
-    border: 1px solid #ccc; /* Rahmen um jeden Eintrag */
-    border-radius: 5px; /* Abgerundete Ecken für den Rahmen */
-    padding: 10px; /* Innenabstand für den Inhalt */
-    margin-bottom: 10px;
-    width: 50%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+.table-container {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+.form-container {
+    margin-top: 20px;
+}
+
+form {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination {
+    margin-top: 20px;
+}
+
+.pagination button {
+    padding: 10px 15px;
+    margin-right: 10px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pagination span {
+    margin-right: 10px;
+}
+
+.filter-container {
+    background-color: #f0f8ff; /* Light blue background */
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.filter-container table {
+    width: 100%;
+}
+
+.filter-container table tr {
+    border: none;
+}
+
+.filter-container table td {
+    padding: 5px;
+}
+
+.filter-container button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 10px 20px;
+}
+
+.Filter {
+    width: 50%;
+    
+}
+
+
+
+
+
