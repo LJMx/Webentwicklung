@@ -373,17 +373,7 @@
       deleteButton.addEventListener("click", () => {
         deleteFromMerkliste(item.vornamen, item.geschlecht);
       });
-      const priorisierenButton = document.createElement("button");
-      priorisierenButton.textContent = "*";
-      priorisierenButton.addEventListener("click", () => {
-        if (priorisierenButton.style.backgroundColor === "gold") {
-          priorisierenButton.style.backgroundColor = "";
-        } else {
-          priorisierenButton.style.backgroundColor = "gold";
-        }
-      });
       listItem.appendChild(deleteButton);
-      listItem.appendChild(priorisierenButton);
       nameList.appendChild(listItem);
     });
   }
