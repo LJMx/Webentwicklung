@@ -21,22 +21,45 @@
     </div>
 
     <div>
-      <form id="filterForm">
-        <label>
-          Geschlecht: 
-        </label>
-        <label>
-          <input type="radio" name="gender" value="all" checked> Alle
-        </label>
-        <label>
-          <input type="radio" name="gender" value="m"> Männlich
-        </label>
-        <label>
-          <input type="radio" name="gender" value="w"> Weiblich
-        </label>
-        
-      </form>
-    </div>
+        <form id="filterForm">
+          <table>
+            <tr>
+            <td> <label> Geschlecht: </label></td>
+            <td><label> <input type="radio" name="gender" value="all" checked> Alle</label></td>
+            <td><label> <input type="radio" name="gender" value="m" > Männlich </label></td>
+            <td><label> <input type="radio" name="gender" value="w"> Weiblich </label></td>
+          </tr>
+          <tr>
+            <td> <label for="nameStart">Name beginnt mit:</label></td>
+            <td><input type="text" id="nameStart" name="nameStart" placeholder="Präfix eingeben"></td>
+          </tr>
+          <tr>
+            <td><label for="notNameStart">Name startet nicht mit:</label></td>
+            <td><input type="text" id="notNameStart" name="notNameStart" placeholder="Präfix eingeben"></td>
+          </tr>
+  
+          <tr>
+            <td><label for="nameEnd">Name endet mit:</label></td>
+            <td><input type="text" id="nameEnd" name="nameEnd" placeholder="Suffix eingeben"></td>
+          </tr>
+          <tr>
+            <td><label for="notNameEnd">Name endet nicht mit:</label></td>
+            <td><input type="text" id="notNameEnd" name="notNameEnd" placeholder="Suffix eingeben"></td>
+          </tr>
+          <tr>
+            <td><label for="syllableCount">Anzahl der Silben:</label></td>
+            <td><input type="number" id="syllableCount" name="syllableCount" placeholder="Anzahl Silben eingeben"></td>
+          </tr>
+          
+            <td>
+              <button type="button" onclick="filterNames()">Filtern</button>
+            </td>
+            
+          </tr>
+          </table>
+          
+        </form>
+      </div>
 
     <div class="content">
         

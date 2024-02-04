@@ -138,9 +138,11 @@ function setupPagination (data) {
 
   const pageLabel = document.getElementById('pagelabel');
   pageLabel.textContent = `Seite ${index}`;
+  const stopIndex = index;
 
   const totalPageCount = document.getElementById('totalPageCount');
   totalPageCount.textContent = ` Insgesamt ${totalPages} Seiten`;
+  const stopTotalPages = totalPages;
 
   // Vorherige Seite
   document.getElementById('prev-page').addEventListener('click', function () {
@@ -153,7 +155,8 @@ function setupPagination (data) {
 
   // Nächste Seite
   document.getElementById('next-page').addEventListener('click', function () {
-    if (index < totalPages) {
+    // Funktioniert noch nicht perfekt !
+    if ((stopIndex < stopTotalPages)) {
       index++;
       displayDataPaginated(data, index, itemsPerPage);
       pageLabel.textContent = `Seite ${index}`;
@@ -172,6 +175,8 @@ function displayDataPaginated (data, page, itemsPerPage) {
 
 // ---- Filter Funktion ----------------------------------
 
+const syllabicate = require('syllabificate');
+
 function displayFilter () {
   const filterForm = document.getElementById('filterForm');
   filterForm.addEventListener('change', filterNames);
@@ -179,11 +184,23 @@ function displayFilter () {
 
 function filterNames () {
   const selectedGender = document.querySelector('input[name="gender"]:checked').value;
+  const nameStart = document.getElementById('nameStart').value.toLowerCase();
+  const notNameStart = document.getElementById('notNameStart').value.toLowerCase();
+  const nameEnd = document.getElementById('nameEnd').value.toLowerCase();
+  const notNameEnd = document.getElementById('notNameEnd').value.toLowerCase();
+  const syllableCount = document.getElementById('syllableCount').value;
 
   fetch('/getDataFromDatabase')
     .then(response => response.json())
     .then(data => {
-      const filteredData = selectedGender === 'all' ? data : data.filter(item => item.geschlecht === selectedGender);
+      const filteredData = data.filter(item =>
+        (selectedGender === 'all' || item.geschlecht === selectedGender) &&
+        (nameStart === '' || item.vornamen.toLowerCase().startsWith(nameStart)) &&
+        (nameEnd === '' || item.vornamen.toLowerCase().endsWith(nameEnd)) &&
+        (notNameStart === '' || !item.vornamen.toLowerCase().startsWith(notNameStart)) &&
+        (notNameEnd === '' || !item.vornamen.toLowerCase().endsWith(notNameEnd)) &&
+        (syllableCount === '' || syllabicate.countSyllables(item.vornamen) === parseInt(syllableCount))
+      );
       setupPagination(filteredData);
     });
 }
