@@ -1,7 +1,7 @@
 
 // --- Alle Namen ---------------------------------------------
 document.addEventListener('DOMContentLoaded', function () {
-  fetch('/getDataFromDatabase')
+  fetch('/getData')
     .then(response => response.json())
     .then(data => {
       setupPagination(data);
@@ -37,33 +37,28 @@ function addNameToMerkliste (vorname, geschlecht) {
     },
     body: JSON.stringify({ vorname, geschlecht })
   })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Name wurde zur Merkliste hinzugefügt:', data);
-    })
-    .catch(error => console.error('Fehler beim Hinzufügen zum Merkliste:', error));
+    .then(response => response.json());
 }
 
 // ---- Merkliste --------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', function () {
-  fetch('/getMerklisteFromDatabase')
+  fetch('/getMerkliste')
     .then(response => response.json())
     .then(data => {
       displayMerkliste(data);
-      displayFilterMerkliste();
-      makeMerklisteSortable(); // Aufruf der Funktion, um die Merkliste sortierbar zu machen
+      filterMerkliste();
+      merklisteSort();
     });
 });
 
 function displayMerkliste (data) {
-  console.log('- displayMerkliste');
   const nameList = document.getElementById('merkliste');
   nameList.innerHTML = ''; // Alte Einträge löschen
   data.forEach(item => {
     const listItem = document.createElement('li');
     listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
-    listItem.draggable = true; // Aktiviere Drag-and-Drop für das Listenelement
+    listItem.draggable = true;
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = '- löschen';
@@ -78,7 +73,6 @@ function displayMerkliste (data) {
 }
 
 function deleteFromMerkliste (vorname, geschlecht) {
-  console.log('Test');
   fetch('/deleteFromMerkliste', {
     method: 'POST',
     headers: {
@@ -88,25 +82,22 @@ function deleteFromMerkliste (vorname, geschlecht) {
   })
     .then(response => response.json())
     .then(data => {
-      console.log('Name wurde aus Merkliste gelöscht:', data);
-      displayUpdatedMerkliste();
-    })
-    .catch(error => console.error('Fehler beim Löschen aus der Merkliste:', error));
+      updateMerkliste();
+    });
 }
 
-function displayUpdatedMerkliste () {
-  fetch('/getMerklisteFromDatabase')
+function updateMerkliste () {
+  fetch('/getMerkliste')
     .then(response => response.json())
     .then(data => {
       const nameList = document.getElementById('merkliste');
       nameList.innerHTML = ''; // Alte Einträge löschen
       displayMerkliste(data); // Neue Einträge anzeigen
-      makeMerklisteSortable(); // Wiederholtes Aufrufen, um die Sortierbarkeit beizubehalten
+      merklisteSort();
     });
 }
 
-function displayFilterMerkliste () {
-  console.log('1 - displayFilterMerkliste');
+function filterMerkliste () {
   const filterForm = document.getElementById('filterFormMerkliste');
   filterForm.addEventListener('change', filterNamesMerkliste);
 }
@@ -114,16 +105,16 @@ function displayFilterMerkliste () {
 function filterNamesMerkliste () {
   const selectedGender = document.querySelector('input[name="gender"]:checked').value;
 
-  fetch('/getMerklisteFromDatabase')
+  fetch('/getMerkliste')
     .then(response => response.json())
     .then(data => {
       const filteredData = selectedGender === 'all' ? data : data.filter(item => item.geschlecht === selectedGender);
       displayMerkliste(filteredData);
-      makeMerklisteSortable(); // Wiederholtes Aufrufen, um die Sortierbarkeit beizubehalten
+      merklisteSort();
     });
 }
 
-function makeMerklisteSortable () {
+function merklisteSort () {
   const nameList = document.getElementById('merkliste');
   let draggedItem = null;
 
@@ -148,8 +139,8 @@ function makeMerklisteSortable () {
 
 // ---- Paginierung -------------------------------------------------
 function setupPagination (data) {
-  const itemsPerPage = 10;
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const items = 10;
+  const totalPages = Math.ceil(data.length / items);
   let index = 1;
 
   const pageLabel = document.getElementById('pagelabel');
@@ -161,30 +152,30 @@ function setupPagination (data) {
   const stopTotalPages = totalPages;
 
   // Vorherige Seite
-  document.getElementById('prev-page').addEventListener('click', function () {
+  document.getElementById('oldPage').addEventListener('click', function () {
     if (index > 1) {
       index--;
-      displayDataPaginated(data, index, itemsPerPage);
+      displayDataPaginated(data, index, items);
       pageLabel.textContent = `Seite ${index}`;
     }
   });
 
   // Nächste Seite
-  document.getElementById('next-page').addEventListener('click', function () {
+  document.getElementById('newPage').addEventListener('click', function () {
     // Funktioniert noch nicht perfekt !
     if ((stopIndex < stopTotalPages)) {
       index++;
-      displayDataPaginated(data, index, itemsPerPage);
+      displayDataPaginated(data, index, items);
       pageLabel.textContent = `Seite ${index}`;
     }
   });
 
-  displayDataPaginated(data, index, itemsPerPage);
+  displayDataPaginated(data, index, items);
 }
 
-function displayDataPaginated (data, page, itemsPerPage) {
-  const startIndex = (page - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+function displayDataPaginated (data, page, items) {
+  const startIndex = (page - 1) * items;
+  const endIndex = Math.min(startIndex + items, data.length);
   const paginatedData = data.slice(startIndex, endIndex);
   displayData(paginatedData);
 }
@@ -206,7 +197,7 @@ function filterNames () {
   const notNameEnd = document.getElementById('notNameEnd').value.toLowerCase();
   const syllableCount = document.getElementById('syllableCount').value;
 
-  fetch('/getDataFromDatabase')
+  fetch('/getData')
     .then(response => response.json())
     .then(data => {
       const filteredData = data.filter(item =>

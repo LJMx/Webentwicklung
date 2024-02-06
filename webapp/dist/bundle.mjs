@@ -322,7 +322,7 @@
 
   // webapp/src/js/main.js
   document.addEventListener("DOMContentLoaded", function() {
-    fetch("/getDataFromDatabase").then((response) => response.json()).then((data) => {
+    fetch("/getData").then((response) => response.json()).then((data) => {
       setupPagination(data);
       displayFilter();
     });
@@ -349,19 +349,16 @@
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ vorname, geschlecht })
-    }).then((response) => response.json()).then((data) => {
-      console.log("Name wurde zur Merkliste hinzugef\xFCgt:", data);
-    }).catch((error) => console.error("Fehler beim Hinzuf\xFCgen zum Merkliste:", error));
+    }).then((response) => response.json());
   }
   document.addEventListener("DOMContentLoaded", function() {
-    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
+    fetch("/getMerkliste").then((response) => response.json()).then((data) => {
       displayMerkliste(data);
-      displayFilterMerkliste();
-      makeMerklisteSortable();
+      filterMerkliste();
+      merklisteSort();
     });
   });
   function displayMerkliste(data) {
-    console.log("- displayMerkliste");
     const nameList = document.getElementById("merkliste");
     nameList.innerHTML = "";
     data.forEach((item) => {
@@ -378,7 +375,6 @@
     });
   }
   function deleteFromMerkliste(vorname, geschlecht) {
-    console.log("Test");
     fetch("/deleteFromMerkliste", {
       method: "POST",
       headers: {
@@ -386,32 +382,30 @@
       },
       body: JSON.stringify({ vorname, geschlecht })
     }).then((response) => response.json()).then((data) => {
-      console.log("Name wurde aus Merkliste gel\xF6scht:", data);
-      displayUpdatedMerkliste();
-    }).catch((error) => console.error("Fehler beim L\xF6schen aus der Merkliste:", error));
+      updateMerkliste();
+    });
   }
-  function displayUpdatedMerkliste() {
-    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
+  function updateMerkliste() {
+    fetch("/getMerkliste").then((response) => response.json()).then((data) => {
       const nameList = document.getElementById("merkliste");
       nameList.innerHTML = "";
       displayMerkliste(data);
-      makeMerklisteSortable();
+      merklisteSort();
     });
   }
-  function displayFilterMerkliste() {
-    console.log("1 - displayFilterMerkliste");
+  function filterMerkliste() {
     const filterForm = document.getElementById("filterFormMerkliste");
     filterForm.addEventListener("change", filterNamesMerkliste);
   }
   function filterNamesMerkliste() {
     const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-    fetch("/getMerklisteFromDatabase").then((response) => response.json()).then((data) => {
+    fetch("/getMerkliste").then((response) => response.json()).then((data) => {
       const filteredData = selectedGender === "all" ? data : data.filter((item) => item.geschlecht === selectedGender);
       displayMerkliste(filteredData);
-      makeMerklisteSortable();
+      merklisteSort();
     });
   }
-  function makeMerklisteSortable() {
+  function merklisteSort() {
     const nameList = document.getElementById("merkliste");
     let draggedItem = null;
     nameList.addEventListener("dragstart", function(event) {
@@ -431,8 +425,8 @@
     });
   }
   function setupPagination(data) {
-    const itemsPerPage = 10;
-    const totalPages = Math.ceil(data.length / itemsPerPage);
+    const items = 10;
+    const totalPages = Math.ceil(data.length / items);
     let index = 1;
     const pageLabel = document.getElementById("pagelabel");
     pageLabel.textContent = `Seite ${index}`;
@@ -440,25 +434,25 @@
     const totalPageCount = document.getElementById("totalPageCount");
     totalPageCount.textContent = ` Insgesamt ${totalPages} Seiten`;
     const stopTotalPages = totalPages;
-    document.getElementById("prev-page").addEventListener("click", function() {
+    document.getElementById("oldPage").addEventListener("click", function() {
       if (index > 1) {
         index--;
-        displayDataPaginated(data, index, itemsPerPage);
+        displayDataPaginated(data, index, items);
         pageLabel.textContent = `Seite ${index}`;
       }
     });
-    document.getElementById("next-page").addEventListener("click", function() {
+    document.getElementById("newPage").addEventListener("click", function() {
       if (stopIndex < stopTotalPages) {
         index++;
-        displayDataPaginated(data, index, itemsPerPage);
+        displayDataPaginated(data, index, items);
         pageLabel.textContent = `Seite ${index}`;
       }
     });
-    displayDataPaginated(data, index, itemsPerPage);
+    displayDataPaginated(data, index, items);
   }
-  function displayDataPaginated(data, page, itemsPerPage) {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = Math.min(startIndex + itemsPerPage, data.length);
+  function displayDataPaginated(data, page, items) {
+    const startIndex = (page - 1) * items;
+    const endIndex = Math.min(startIndex + items, data.length);
     const paginatedData = data.slice(startIndex, endIndex);
     displayData(paginatedData);
   }
@@ -474,7 +468,7 @@
     const nameEnd = document.getElementById("nameEnd").value.toLowerCase();
     const notNameEnd = document.getElementById("notNameEnd").value.toLowerCase();
     const syllableCount = document.getElementById("syllableCount").value;
-    fetch("/getDataFromDatabase").then((response) => response.json()).then((data) => {
+    fetch("/getData").then((response) => response.json()).then((data) => {
       const filteredData = data.filter(
         (item) => (selectedGender === "all" || item.geschlecht === selectedGender) && (nameStart === "" || item.vornamen.toLowerCase().startsWith(nameStart)) && (nameEnd === "" || item.vornamen.toLowerCase().endsWith(nameEnd)) && (notNameStart === "" || !item.vornamen.toLowerCase().startsWith(notNameStart)) && (notNameEnd === "" || !item.vornamen.toLowerCase().endsWith(notNameEnd)) && (syllableCount === "" || syllabicate.countSyllables(item.vornamen) === parseInt(syllableCount))
       );
