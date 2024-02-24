@@ -60,26 +60,9 @@ dbMerkliste.serialize(() => {
 route.put('/addToMerkliste', (req, res) => {
   const { vorname, geschlecht } = req.body;
 
-  dbMerkliste.get('SELECT * FROM merkliste WHERE vornamen = ? AND geschlecht = ?', [vorname, geschlecht], (selectError, existingRow) => {
-    if (selectError) {
-      console.error(selectError);
-      return;
-    }
-
-    if (existingRow) {
-      res.json({ message: 'Name already exists in Merkliste.' });
-      console.log(vorname + ' exsistiert bereits in Merkliste.');
-    } else {
-      dbMerkliste.run('INSERT INTO merkliste (vornamen, geschlecht) VALUES (?, ?)', [vorname, geschlecht], (insertError) => {
-        if (insertError) {
-          console.error(insertError);
-
-          return;
-        }
-        res.json({ message: 'Name wurde zur Merkliste hinzugefügt.' });
-        console.log(vorname + ' hinzugefügt');
-      });
-    }
+  dbMerkliste.run('INSERT INTO merkliste (vornamen, geschlecht) VALUES (?, ?)', [vorname, geschlecht], (insertError) => {
+    res.json({ message: 'Name wurde zur Merkliste hinzugefügt.' });
+    console.log(vorname + ' added to Merkliste');
   });
 });
 
