@@ -35,15 +35,6 @@ db.serialize(() => {
       res.json(rows);
     });
   });
-
-  // Daten ausgeben kann gelöscht werden
-  db.each('SELECT * FROM names', (error, row) => {
-    if (error) {
-      console.error(error);
-      return;
-    }
-    console.log(`${row.vornamen} - ${row.geschlecht}`);
-  });
 });
 
 dbMerkliste.serialize(() => {
