@@ -62,7 +62,7 @@ route.put('/addToMerkliste', (req, res) => {
 
   dbMerkliste.run('INSERT INTO merkliste (vornamen, geschlecht) VALUES (?, ?)', [vorname, geschlecht], (insertError) => {
     res.json({ message: 'Name wurde zur Merkliste hinzugefügt.' });
-    console.log(vorname + ' added to Merkliste');
+    console.log(vorname + ' hinzugefügt zu Merkliste');
   });
 });
 
@@ -75,6 +75,7 @@ route.post('/deleteFromMerkliste', (req, res) => {
       return;
     }
     res.json({ message: 'Name wurde aus der Merkliste gelöscht.' });
+    console.log(vorname + ' gelöscht von Merkliste');
   });
 });
 
