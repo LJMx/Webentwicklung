@@ -182,32 +182,39 @@ function displayDataPaginated (data, page, items) {
 
 // ---- Filter Funktion ----------------------------------
 
+// Silbenzaehler
 const syllabicate = require('syllabificate');
 
 function displayFilter () {
-  const filterForm = document.getElementById('filterForm');
-  filterForm.addEventListener('change', filterNames);
+  const filterFormAllNames = document.getElementById('filterFormAllNames');
+  filterFormAllNames.addEventListener('change', filterAllNames);
 }
 
-function filterNames () {
+function filterAllNames () {
+  // Ausgewählte Geschlecht
   const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-  const nameStart = document.getElementById('nameStart').value.toLowerCase();
-  const notNameStart = document.getElementById('notNameStart').value.toLowerCase();
-  const nameEnd = document.getElementById('nameEnd').value.toLowerCase();
-  const notNameEnd = document.getElementById('notNameEnd').value.toLowerCase();
+  // Der Name soll mit diesem String starten
+  const nameStartWith = document.getElementById('nameStartWith').value.toLowerCase();
+  // Der Name soll mit diesem String nicht starten
+  const notNameStartWith = document.getElementById('notNameStartWith').value.toLowerCase();
+  // Der Name soll mit diesem String enden
+  const nameEndWith = document.getElementById('nameEndWith').value.toLowerCase();
+  // Der Name soll mit diesem String nicht enden
+  const notNameEndWith = document.getElementById('notNameEndWith').value.toLowerCase();
+  // Der Name soll diese Anzahl an Silben haben
   const syllableCount = document.getElementById('syllableCount').value;
 
   fetch('/getData')
     .then(response => response.json())
     .then(data => {
-      const filteredData = data.filter(item =>
+      const filteredAllNames = data.filter(item =>
         (selectedGender === 'all' || item.geschlecht === selectedGender) &&
-        (nameStart === '' || item.vornamen.toLowerCase().startsWith(nameStart)) &&
-        (nameEnd === '' || item.vornamen.toLowerCase().endsWith(nameEnd)) &&
-        (notNameStart === '' || !item.vornamen.toLowerCase().startsWith(notNameStart)) &&
-        (notNameEnd === '' || !item.vornamen.toLowerCase().endsWith(notNameEnd)) &&
+        (nameStartWith === '' || item.vornamen.toLowerCase().startsWith(nameStartWith)) &&
+        (nameEndWith === '' || item.vornamen.toLowerCase().endsWith(nameEndWith)) &&
+        (notNameStartWith === '' || !item.vornamen.toLowerCase().startsWith(notNameStartWith)) &&
+        (notNameEndWith === '' || !item.vornamen.toLowerCase().endsWith(notNameEndWith)) &&
         (syllableCount === '' || syllabicate.countSyllables(item.vornamen) === parseInt(syllableCount))
       );
-      setupPagination(filteredData);
+      setupPagination(filteredAllNames);
     });
 }

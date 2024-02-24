@@ -1,18 +1,18 @@
 (() => {
-  var __getOwnPropNames = Object.getOwnPropertyNames;
-  var __commonJS = (cb, mod) => function __require() {
+  const __getOwnPropNames = Object.getOwnPropertyNames;
+  const __commonJS = (cb, mod) => function __require () {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
   };
 
   // node_modules/syllabificate/index.js
-  var require_syllabificate = __commonJS({
-    "node_modules/syllabificate/index.js"(exports) {
-      exports.countSyllables = function(inString) {
+  const require_syllabificate = __commonJS({
+    'node_modules/syllabificate/index.js' (exports) {
+      exports.countSyllables = function (inString) {
         let syllablesTotal = 0;
-        let wordList = inString.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g);
+        const wordList = inString.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g);
         if (wordList) {
           wordList.forEach((word) => {
-            if (word === "'" || word === "\u2019") {
+            if (word === "'" || word === '\u2019') {
               return;
             }
             if (word.length <= 2) {
@@ -20,19 +20,19 @@
               return;
             }
             let syllables = 0;
-            if (word.endsWith("s'") || word.endsWith("s\u2019")) {
+            if (word.endsWith("s'") || word.endsWith('s\u2019')) {
               word.slice(-1);
             }
-            if (word.endsWith("s's") || word.endsWith("s\u2019s")) {
+            if (word.endsWith("s's") || word.endsWith('s\u2019s')) {
               word.slice(-1, -3);
             }
             const cEndings = word.match(/(?<=\w{3})(side|\wess|(?<!ed)ly|ment|ship|board|ground|(?<![^u]de)ville|port|ful(ly)?|berry|box|nesse?|such|m[ae]n|wom[ae]n|anne)s?$/mi);
             if (cEndings) {
-              word = word.replace(cEndings[0], "\n" + cEndings[0]);
+              word = word.replace(cEndings[0], '\n' + cEndings[0]);
             }
             const cBeginnings = word.match(/^(ware|side(?![sd]$)|p?re(?!ach|agan|al|au)|[rf]ace(?!([sd]|tte)$)|place[^nsd])/mi);
             if (cBeginnings) {
-              word = word.replace(cBeginnings[0], "");
+              word = word.replace(cBeginnings[0], '');
               syllables++;
             }
             const esylp = word.match(/ie($|l|t|rg)|([cb]|tt|pp)le$|phe$|kle(s|$)|[^n]scien|sue|aybe$|[^aeiou]shed|[^lsoai]les$|([^e]r|g)ge$|(gg|ck|yw|etch)ed$|(sc|o)he$|seer|^re[eiuy]/gmi);
@@ -109,31 +109,31 @@
         }
         return syllablesTotal;
       };
-      exports.countPolys = function(inString) {
+      exports.countPolys = function (inString) {
         let polysTotal = 0;
-        let wordList = inString.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g);
+        const wordList = inString.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g);
         if (wordList) {
           wordList.forEach((word) => {
-            if (word === "'" || word === "\u2019") {
+            if (word === "'" || word === '\u2019') {
               return;
             }
             if (word.length <= 3) {
               return;
             }
             let syllables = 0;
-            if (word.endsWith("s'") || word.endsWith("s\u2019")) {
+            if (word.endsWith("s'") || word.endsWith('s\u2019')) {
               word.slice(-1);
             }
-            if (word.endsWith("s's") || word.endsWith("s\u2019s")) {
+            if (word.endsWith("s's") || word.endsWith('s\u2019s')) {
               word.slice(-1, -3);
             }
             const cEndings = word.match(/(?<=\w{3})(side|\wess|(?<!ed)ly|ment|ship|board|ground|(?<![^u]de)ville|port|ful(ly)?|berry|box|nesse?|such|m[ae]n|wom[ae]n|horse|anne)s?$/mi);
             if (cEndings) {
-              word = word.replace(cEndings[0], "\n" + cEndings[0]);
+              word = word.replace(cEndings[0], '\n' + cEndings[0]);
             }
             const cBeginnings = word.match(/^(ware|side|p?re(?!ach|agan|al|au))/mi);
             if (cBeginnings) {
-              word = word.replace(cBeginnings[0], "");
+              word = word.replace(cBeginnings[0], '');
               syllables++;
             }
             const esylp = word.match(/ie($|l|t|rg)|([cb]|tt|pp)le$|phe$|kle(s|$)|[^n]scien|sue|aybe$|[^aeiou]shed|[^lsoai]les$|([^e]r|g)ge$|(gg|ck|yw|etch)ed$|(sc|o)he$|seer|^re[eiuy]/gmi);
@@ -212,12 +212,12 @@
         }
         return polysTotal;
       };
-      exports.countSyllablesAndPolys = function(inString) {
-        let syllablesTotal = 0, polysTotal = 0;
-        let wordList = inString.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g);
+      exports.countSyllablesAndPolys = function (inString) {
+        let syllablesTotal = 0; let polysTotal = 0;
+        const wordList = inString.match(/(?:(?:\w-\w)|[\wÀ-ÿ'’])+/g);
         if (wordList) {
           wordList.forEach((word) => {
-            if (word === "'" || word === "\u2019") {
+            if (word === "'" || word === '\u2019') {
               return;
             }
             if (word.length <= 2) {
@@ -225,19 +225,19 @@
               return;
             }
             let syllables = 0;
-            if (word.endsWith("s'") || word.endsWith("s\u2019")) {
+            if (word.endsWith("s'") || word.endsWith('s\u2019')) {
               word.slice(-1);
             }
-            if (word.endsWith("s's") || word.endsWith("s\u2019s")) {
+            if (word.endsWith("s's") || word.endsWith('s\u2019s')) {
               word.slice(-1, -3);
             }
             const cEndings = word.match(/(?<=\w{3})(side|\wess|(?<!ed)ly|ment|ship|board|ground|(?<![^u]de)ville|port|ful(ly)?|berry|box|nesse?|such|m[ae]n|wom[ae]n|horse|anne)s?$/mi);
             if (cEndings) {
-              word = word.replace(cEndings[0], "\n" + cEndings[0]);
+              word = word.replace(cEndings[0], '\n' + cEndings[0]);
             }
             const cBeginnings = word.match(/^(ware|side|p?re(?!ach|agan|al|au))/mi);
             if (cBeginnings) {
-              word = word.replace(cBeginnings[0], "");
+              word = word.replace(cBeginnings[0], '');
               syllables++;
             }
             const esylp = word.match(/ie($|l|t|rg)|([cb]|tt|pp)le$|phe$|kle(s|$)|[^n]scien|sue|aybe$|[^aeiou]shed|[^lsoai]les$|([^e]r|g)ge$|(gg|ck|yw|etch)ed$|(sc|o)he$|seer|^re[eiuy]/gmi);
@@ -321,127 +321,127 @@
   });
 
   // webapp/src/js/main.js
-  document.addEventListener("DOMContentLoaded", function() {
-    fetch("/getData").then((response) => response.json()).then((data) => {
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('/getData').then((response) => response.json()).then((data) => {
       setupPagination(data);
       displayFilter();
     });
   });
-  function displayData(data) {
-    const nameList = document.getElementById("nameList");
-    nameList.innerHTML = "";
+  function displayData (data) {
+    const nameList = document.getElementById('nameList');
+    nameList.innerHTML = '';
     data.forEach((item) => {
-      const listItem = document.createElement("li");
+      const listItem = document.createElement('li');
       listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
-      const button = document.createElement("button");
-      button.textContent = "+ hinzuf\xFCgen";
-      button.addEventListener("click", () => {
+      const button = document.createElement('button');
+      button.textContent = '+ hinzuf\xFCgen';
+      button.addEventListener('click', () => {
         addNameToMerkliste(item.vornamen, item.geschlecht);
       });
       listItem.appendChild(button);
       nameList.appendChild(listItem);
     });
   }
-  function addNameToMerkliste(vorname, geschlecht) {
-    fetch("/addToMerkliste", {
-      method: "PUT",
+  function addNameToMerkliste (vorname, geschlecht) {
+    fetch('/addToMerkliste', {
+      method: 'PUT',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ vorname, geschlecht })
     }).then((response) => response.json());
   }
-  document.addEventListener("DOMContentLoaded", function() {
-    fetch("/getMerkliste").then((response) => response.json()).then((data) => {
+  document.addEventListener('DOMContentLoaded', function () {
+    fetch('/getMerkliste').then((response) => response.json()).then((data) => {
       displayMerkliste(data);
       filterMerkliste();
       merklisteSort();
     });
   });
-  function displayMerkliste(data) {
-    const nameList = document.getElementById("merkliste");
-    nameList.innerHTML = "";
+  function displayMerkliste (data) {
+    const nameList = document.getElementById('merkliste');
+    nameList.innerHTML = '';
     data.forEach((item) => {
-      const listItem = document.createElement("li");
+      const listItem = document.createElement('li');
       listItem.textContent = `${item.vornamen} - ${item.geschlecht}`;
       listItem.draggable = true;
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "- l\xF6schen";
-      deleteButton.addEventListener("click", () => {
+      const deleteButton = document.createElement('button');
+      deleteButton.textContent = '- l\xF6schen';
+      deleteButton.addEventListener('click', () => {
         deleteFromMerkliste(item.vornamen, item.geschlecht);
       });
       listItem.appendChild(deleteButton);
       nameList.appendChild(listItem);
     });
   }
-  function deleteFromMerkliste(vorname, geschlecht) {
-    fetch("/deleteFromMerkliste", {
-      method: "POST",
+  function deleteFromMerkliste (vorname, geschlecht) {
+    fetch('/deleteFromMerkliste', {
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json"
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({ vorname, geschlecht })
     }).then((response) => response.json()).then((data) => {
       updateMerkliste();
     });
   }
-  function updateMerkliste() {
-    fetch("/getMerkliste").then((response) => response.json()).then((data) => {
-      const nameList = document.getElementById("merkliste");
-      nameList.innerHTML = "";
+  function updateMerkliste () {
+    fetch('/getMerkliste').then((response) => response.json()).then((data) => {
+      const nameList = document.getElementById('merkliste');
+      nameList.innerHTML = '';
       displayMerkliste(data);
       merklisteSort();
     });
   }
-  function filterMerkliste() {
-    const filterForm = document.getElementById("filterFormMerkliste");
-    filterForm.addEventListener("change", filterNamesMerkliste);
+  function filterMerkliste () {
+    const filterForm = document.getElementById('filterFormMerkliste');
+    filterForm.addEventListener('change', filterNamesMerkliste);
   }
-  function filterNamesMerkliste() {
+  function filterNamesMerkliste () {
     const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-    fetch("/getMerkliste").then((response) => response.json()).then((data) => {
-      const filteredData = selectedGender === "all" ? data : data.filter((item) => item.geschlecht === selectedGender);
+    fetch('/getMerkliste').then((response) => response.json()).then((data) => {
+      const filteredData = selectedGender === 'all' ? data : data.filter((item) => item.geschlecht === selectedGender);
       displayMerkliste(filteredData);
       merklisteSort();
     });
   }
-  function merklisteSort() {
-    const nameList = document.getElementById("merkliste");
+  function merklisteSort () {
+    const nameList = document.getElementById('merkliste');
     let draggedItem = null;
-    nameList.addEventListener("dragstart", function(event) {
+    nameList.addEventListener('dragstart', function (event) {
       draggedItem = event.target;
-      event.dataTransfer.setData("text/plain", null);
+      event.dataTransfer.setData('text/plain', null);
     });
-    nameList.addEventListener("dragover", function(event) {
+    nameList.addEventListener('dragover', function (event) {
       event.preventDefault();
     });
-    nameList.addEventListener("drop", function(event) {
+    nameList.addEventListener('drop', function (event) {
       event.preventDefault();
-      if (event.target.tagName === "LI") {
+      if (event.target.tagName === 'LI') {
         nameList.insertBefore(draggedItem, event.target);
       } else {
         nameList.appendChild(draggedItem);
       }
     });
   }
-  function setupPagination(data) {
+  function setupPagination (data) {
     const items = 10;
     const totalPages = Math.ceil(data.length / items);
     let index = 1;
-    const pageLabel = document.getElementById("pagelabel");
+    const pageLabel = document.getElementById('pagelabel');
     pageLabel.textContent = `Seite ${index}`;
     const stopIndex = index;
-    const totalPageCount = document.getElementById("totalPageCount");
+    const totalPageCount = document.getElementById('totalPageCount');
     totalPageCount.textContent = ` Insgesamt ${totalPages} Seiten`;
     const stopTotalPages = totalPages;
-    document.getElementById("oldPage").addEventListener("click", function() {
+    document.getElementById('oldPage').addEventListener('click', function () {
       if (index > 1) {
         index--;
         displayDataPaginated(data, index, items);
         pageLabel.textContent = `Seite ${index}`;
       }
     });
-    document.getElementById("newPage").addEventListener("click", function() {
+    document.getElementById('newPage').addEventListener('click', function () {
       if (stopIndex < stopTotalPages) {
         index++;
         displayDataPaginated(data, index, items);
@@ -450,27 +450,27 @@
     });
     displayDataPaginated(data, index, items);
   }
-  function displayDataPaginated(data, page, items) {
+  function displayDataPaginated (data, page, items) {
     const startIndex = (page - 1) * items;
     const endIndex = Math.min(startIndex + items, data.length);
     const paginatedData = data.slice(startIndex, endIndex);
     displayData(paginatedData);
   }
-  var syllabicate = require_syllabificate();
-  function displayFilter() {
-    const filterForm = document.getElementById("filterForm");
-    filterForm.addEventListener("change", filterNames);
+  const syllabicate = require_syllabificate();
+  function displayFilter () {
+    const filterForm = document.getElementById('filterForm');
+    filterForm.addEventListener('change', filterNames);
   }
-  function filterNames() {
+  function filterNames () {
     const selectedGender = document.querySelector('input[name="gender"]:checked').value;
-    const nameStart = document.getElementById("nameStart").value.toLowerCase();
-    const notNameStart = document.getElementById("notNameStart").value.toLowerCase();
-    const nameEnd = document.getElementById("nameEnd").value.toLowerCase();
-    const notNameEnd = document.getElementById("notNameEnd").value.toLowerCase();
-    const syllableCount = document.getElementById("syllableCount").value;
-    fetch("/getData").then((response) => response.json()).then((data) => {
+    const nameStart = document.getElementById('nameStart').value.toLowerCase();
+    const notNameStart = document.getElementById('notNameStart').value.toLowerCase();
+    const nameEnd = document.getElementById('nameEnd').value.toLowerCase();
+    const notNameEnd = document.getElementById('notNameEnd').value.toLowerCase();
+    const syllableCount = document.getElementById('syllableCount').value;
+    fetch('/getData').then((response) => response.json()).then((data) => {
       const filteredData = data.filter(
-        (item) => (selectedGender === "all" || item.geschlecht === selectedGender) && (nameStart === "" || item.vornamen.toLowerCase().startsWith(nameStart)) && (nameEnd === "" || item.vornamen.toLowerCase().endsWith(nameEnd)) && (notNameStart === "" || !item.vornamen.toLowerCase().startsWith(notNameStart)) && (notNameEnd === "" || !item.vornamen.toLowerCase().endsWith(notNameEnd)) && (syllableCount === "" || syllabicate.countSyllables(item.vornamen) === parseInt(syllableCount))
+        (item) => (selectedGender === 'all' || item.geschlecht === selectedGender) && (nameStart === '' || item.vornamen.toLowerCase().startsWith(nameStart)) && (nameEnd === '' || item.vornamen.toLowerCase().endsWith(nameEnd)) && (notNameStart === '' || !item.vornamen.toLowerCase().startsWith(notNameStart)) && (notNameEnd === '' || !item.vornamen.toLowerCase().endsWith(notNameEnd)) && (syllableCount === '' || syllabicate.countSyllables(item.vornamen) === parseInt(syllableCount))
       );
       setupPagination(filteredData);
     });
