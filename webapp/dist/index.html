@@ -21,45 +21,45 @@
     </div>
 
     <div class="Filter">
-        <form id="filterForm">
-          <table>
-            <tr>
-            <td> <label> Geschlecht: </label></td>
-            <td><label> <input type="radio" name="gender" value="all" checked> Alle</label></td>
-            <td><label> <input type="radio" name="gender" value="m" > Männlich </label></td>
-            <td><label> <input type="radio" name="gender" value="w"> Weiblich </label></td>
-          </tr>
+      <form id="filterFormAllNames">
+        <table>
           <tr>
-            <td> <label for="nameStart">Name beginnt mit:</label></td>
-            <td><input type="text" id="nameStart" name="nameStart" placeholder="Präfix eingeben"></td>
-          </tr>
-          <tr>
-            <td><label for="notNameStart">Name startet nicht mit:</label></td>
-            <td><input type="text" id="notNameStart" name="notNameStart" placeholder="Präfix eingeben"></td>
-          </tr>
-  
-          <tr>
-            <td><label for="nameEnd">Name endet mit:</label></td>
-            <td><input type="text" id="nameEnd" name="nameEnd" placeholder="Suffix eingeben"></td>
-          </tr>
-          <tr>
-            <td><label for="notNameEnd">Name endet nicht mit:</label></td>
-            <td><input type="text" id="notNameEnd" name="notNameEnd" placeholder="Suffix eingeben"></td>
-          </tr>
-          <tr>
-            <td><label for="syllableCount">Anzahl der Silben:</label></td>
-            <td><input type="number" id="syllableCount" name="syllableCount" placeholder="Anzahl Silben eingeben"></td>
-          </tr>
+          <td> <label> Geschlecht: </label></td>
+          <td><label> <input type="radio" name="gender" value="all" checked> Alle</label></td>
+          <td><label> <input type="radio" name="gender" value="m" > Männlich </label></td>
+          <td><label> <input type="radio" name="gender" value="w"> Weiblich </label></td>
+        </tr>
+        <tr>
+          <td> <label for="nameStartWith">Name beginnt mit:</label></td>
+          <td><input type="text" id="nameStartWith" name="nameStartWith" placeholder="Präfix eingeben"></td>
+        </tr>
+        <tr>
+          <td><label for="notNameStartWith">Name startet nicht mit:</label></td>
+          <td><input type="text" id="notNameStartWith" name="notNameStartWith" placeholder="Präfix eingeben"></td>
+        </tr>
+
+        <tr>
+          <td><label for="nameEndWith">Name endet mit:</label></td>
+          <td><input type="text" id="nameEndWith" name="nameEndWith" placeholder="Suffix eingeben"></td>
+        </tr>
+        <tr>
+          <td><label for="notNameEndWith">Name endet nicht mit:</label></td>
+          <td><input type="text" id="notNameEndWith" name="notNameEndWith" placeholder="Suffix eingeben"></td>
+        </tr>
+        <tr>
+          <td><label for="syllableCount">Anzahl der Silben:</label></td>
+          <td><input type="number" id="syllableCount" name="syllableCount" placeholder="Anzahl Silben eingeben"></td>
+        </tr>
+        
+          <td>
+            <button type="button" onclick="filterNames()">Filtern</button>
+          </td>
           
-            <td>
-              <button type="button" onclick="filterNames()">Filtern</button>
-            </td>
-            
-          </tr>
-          </table>
-          
-        </form>
-      </div>
+        </tr>
+        </table>
+        
+      </form>
+    </div>
 
     <div class="content">
         

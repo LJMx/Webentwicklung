@@ -23,22 +23,20 @@
     "prestart": "npm run debug",
     "start": "node server/src/server.js",
     "initdb": "node server/src/index.js",
-    "nstart": "nodemon server/src/server.js 12345",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "esbuild": "^0.19.10",
+    "express": "^4.18.2",
     "less": "^4.2.0",
-    "nodemon": "^3.0.3",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
     "syllabificate": "^2.0.3",
     "terser": "^5.26.0"
   },
   "devDependencies": {
-    "express": "^4.18.2",
     "less-plugin-clean-css": "^1.5.1",
     "semistandard": "^17.0.0",
     "snazzy": "^9.0.0"
