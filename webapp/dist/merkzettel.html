@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hausarbeit</title>
+    
+    <link rel="stylesheet"  href="main.css" />
+
+   
+
+
+</head>
+<h1>Web-Entwicklung WS 23/24</h1>
+    
+    <div class="menu">
+    <ul>
+        <li><a href = "index.html" title = "Alle Namen">Namensliste</a></li>
+        <li><a href = "merkzettel.html" title = "Meine Merkliste" >Merkliste</a></li>
+    </ul>
+
+    </div>
+    <div class="content">
+        <h2> Mein Merkzettel</h2>
+        <p> Priorisierung: Sie können ihre Lieblingsnamen per Drag-and-drop in ihrer persönlichen Reihenfolge anzeigen lassen</p>
+    </div>
+    <div>
+        <form id="filterFormMerkliste">
+          <label>
+            Geschlecht: 
+          </label>
+          <label>
+            <input type="radio" name="gender" value="all" checked> Alle
+          </label>
+          <label>
+            <input type="radio" name="gender" value="m"> Männlich
+          </label>
+          <label>
+            <input type="radio" name="gender" value="w"> Weiblich
+          </label>
+          
+        </form>
+      </div>
+
+    </div>
+
+    <div class="content" >
+        
+        <ul style="padding-bottom: 0;">
+            <li> Vorname - Gechlecht - Merkliste</li>
+        </ul>
+        <ul id="merkliste">
+            
+        </ul>  
+
+        
+    
+        <script src="bundle.mjs" type="module"></script>
+    </div>
+
+</html>
